@@ -70,7 +70,27 @@ form.addEventListener('submit', async (e) => {
 
   window.location.href =
     `mailto:${RECIPIENT}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  // If no email app opens, the visitor can copy the message instead.
+  fallbackText.textContent = `Subject: ${subject}\n\n${body}`;
+  fallback.hidden = false;
   note.textContent = 'Your email app should open with the message ready to send.';
+});
+
+const fallback = document.getElementById('fallback');
+const fallbackText = document.getElementById('fallback-text');
+document.getElementById('copy-message').addEventListener('click', async (e) => {
+  try {
+    await navigator.clipboard.writeText(fallbackText.textContent);
+    e.target.textContent = 'Copied';
+  } catch {
+    const range = document.createRange();
+    range.selectNodeContents(fallbackText);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    e.target.textContent = 'Press Ctrl/⌘ + C to copy';
+  }
 });
 
 document.getElementById('year').textContent = new Date().getFullYear();
