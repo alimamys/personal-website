@@ -114,7 +114,7 @@ a { color: var(--accent); }
 .nav-toggle { display: none; background: none; border: 0; padding: 8px; cursor: pointer; }
 .nav-toggle span { display: block; width: 22px; height: 2px; margin: 5px 0; background: var(--text); border-radius: 2px; }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .nav-toggle { display: block; }
   .nav-links {
     display: none;
@@ -253,3 +253,45 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
 .site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
 .site-footer p { margin: 0; }
 .site-footer a { color: var(--muted); text-decoration: none; }
+
+/* CV-driven additions */
+.facts-note { font-size: 0.75rem; color: var(--muted); margin: 0.75rem 0 0; }
+
+.credentials { list-style: none; padding: 0; margin: 1.5rem 0 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.credentials li { font-size: 0.925rem; color: var(--muted); padding-left: 1.1rem; position: relative; }
+.credentials li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+.ranks { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.55rem 0 0; }
+.ranks span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+}
+
+.engagements { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 1.25rem; }
+.engagements li {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.engagements li > div { min-width: 0; }
+.engagements .when { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent); padding-top: 0.2rem; }
+.engagements h3 { margin-bottom: 0.25rem; }
+.engagements .who { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.6rem; }
+.engagements p:last-child { margin: 0; font-size: 0.95rem; }
+@media (max-width: 560px) { .engagements li { grid-template-columns: 1fr; gap: 0.5rem; } }
+
+.sub-head { margin: 3rem 0 1rem; }
+.talks { list-style: none; padding: 0; margin: 0; }
+.talks li { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.9rem 0; border-top: 1px solid var(--line); }
+.talks li:last-child { border-bottom: 1px solid var(--line); }
+.talks strong { font-weight: 500; }
+.talks span { font-size: 0.875rem; color: var(--muted); }
