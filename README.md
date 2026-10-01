@@ -20,6 +20,23 @@ Open `index.html` in a browser, or run `python3 -m http.server` and visit http:/
   To receive submissions directly, create a free form at [Formspree](https://formspree.io) and set
   `FORM_ENDPOINT` at the top of the form section in `script.js`.
 
+## Automatic citation updates
+
+`.github/workflows/update-scholar.yml` runs every Monday (and on demand from the
+**Actions** tab → *Update citations from Google Scholar* → *Run workflow*). It runs
+`scripts/update_scholar.py`, which refreshes:
+
+- citations, h-index and the "updated" date in the header
+- the "Cited by N" badge on each selected publication
+- the "Latest publications" list (newest five from Google Scholar)
+
+Google Scholar often blocks automated requests from GitHub's servers. For reliable
+updates, create a free [SerpApi](https://serpapi.com) account and add its API key as a
+repository secret named `SERPAPI_KEY` (**Settings → Secrets and variables → Actions**).
+If no data can be fetched, the site is left unchanged and the run shows a warning.
+
+Scheduled workflows run only on the repository's default branch.
+
 ## Publish with GitHub Pages
 
 Repository **Settings → Pages → Build and deployment → Deploy from a branch**, choose the branch and `/ (root)`.
