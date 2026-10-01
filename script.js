@@ -93,4 +93,16 @@ document.getElementById('copy-message').addEventListener('click', async (e) => {
   }
 });
 
+// Copy-to-clipboard buttons for the email address
+document.querySelectorAll('[data-copy]').forEach((btn) => {
+  btn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(btn.dataset.copy);
+      btn.textContent = 'Copied';
+    } catch {
+      btn.textContent = btn.dataset.copy;
+    }
+  });
+});
+
 document.getElementById('year').textContent = new Date().getFullYear();
