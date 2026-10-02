@@ -40,3 +40,4 @@ Scheduled workflows run only on the repository's default branch.
 ## Publish with GitHub Pages
 
 Repository **Settings → Pages → Build and deployment → Deploy from a branch**, choose the branch and `/ (root)`.
+GitHub rebuilds the site on every push. Live address: https://alimamys.github.io/personal-website/
