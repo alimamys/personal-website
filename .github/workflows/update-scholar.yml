@@ -27,7 +27,8 @@ jobs:
 
       - name: Commit changes
         run: |
-          git add index.html data
+          git add index.html
+          if [ -d data ]; then git add data; fi
           if git diff --cached --quiet; then
             echo "No changes."
             exit 0
