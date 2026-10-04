@@ -25,7 +25,7 @@ from bs4 import BeautifulSoup
 
 SCHOLAR_ID = "yRba7DEAAAAJ"
 OWNER_NAME = "Alimamy"  # bolded in author lists
-LATEST_COUNT = 5
+LATEST_COUNT = 3
 
 ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "index.html"
@@ -158,10 +158,10 @@ def render_latest(articles):
         meta = " · ".join(x for x in [authors, html.escape(a["venue"]), str(a["year"] or "")] if x)
         link = html.escape(a["link"] or "https://scholar.google.com/citations?user=" + SCHOLAR_ID, quote=True)
         items.append(
-            f'          <li><a href="{link}" target="_blank" rel="noopener">{html.escape(a["title"])}</a>'
+            f'            <li><a href="{link}" target="_blank" rel="noopener">{html.escape(a["title"])}</a>'
             f"<span>{meta}</span></li>"
         )
-    return '        <ul class="latest">\n' + "\n".join(items) + "\n        </ul>\n"
+    return '          <ul class="latest">\n' + "\n".join(items) + "\n          </ul>\n"
 
 
 def update_page(page, metrics, articles, now):
@@ -184,8 +184,14 @@ def update_page(page, metrics, articles, now):
 
     page = re.sub(r'<span class="cites" data-cites="([a-z0-9]+)"(?: hidden)?>.*?</span>', badge, page)
 
-    # Latest publications, newest first
-    latest = sorted(articles, key=lambda a: a["year"], reverse=True)
+    # Latest publications, newest first, skipping papers already featured above
+    featured = re.findall(r'data-cites="([a-z0-9]+)"', page)
+
+    def is_featured(a):
+        k = title_key(a["title"])
+        return any(k.startswith(f[:45]) or f.startswith(k[:45]) for f in featured)
+
+    latest = sorted((a for a in articles if not is_featured(a)), key=lambda a: a["year"], reverse=True)
     page = re.sub(
         r"(<!-- scholar:latest:start -->\n).*?(\s*<!-- scholar:latest:end -->)",
         lambda m: m.group(1) + render_latest(latest).rstrip("\n") + m.group(2),
