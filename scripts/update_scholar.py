@@ -27,6 +27,13 @@ SCHOLAR_ID = "yRba7DEAAAAJ"
 OWNER_NAME = "Alimamy"  # bolded in author lists
 LATEST_COUNT = 3
 
+# Verified author lists that take precedence over Google Scholar's data,
+# keyed by the start of the paper's title (lowercase letters and digits only).
+AUTHOR_OVERRIDES = {
+    # Tourism Recreation Research, 2026 (confirmed author order)
+    "chatgptwhereshouldigo": "MA Kuhail, A Følstad, S Alimamy",
+}
+
 ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "index.html"
 DATA = ROOT / "data" / "scholar.json"
@@ -151,7 +158,9 @@ def set_marked(page, attr, value, text):
 def render_latest(articles):
     items = []
     for a in articles[:LATEST_COUNT]:
-        authors = html.escape(a["authors"])
+        key = title_key(a["title"])
+        override = next((v for k, v in AUTHOR_OVERRIDES.items() if key.startswith(k)), None)
+        authors = html.escape(override or a["authors"])
         authors = re.sub(
             rf"([A-Z]+ {OWNER_NAME})", r"<strong>\1</strong>", authors, flags=re.I
         )
